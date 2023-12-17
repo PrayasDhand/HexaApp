@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "130153393565",
+    "firebase_url": "https://driverregistrationapp-default-rtdb.firebaseio.com",
+    "project_id": "driverregistrationapp",
+    "storage_bucket": "driverregistrationapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130153393565:android:791896b034b957787a9374",
+        "android_client_info": {
+          "package_name": "com.example.driverregistration"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbeuYVUX7rEMAJWh6LxVclicXBTL8spk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130153393565:android:60b701d974d46b5e7a9374",
+        "android_client_info": {
+          "package_name": "com.example.driverregistration"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbeuYVUX7rEMAJWh6LxVclicXBTL8spk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
