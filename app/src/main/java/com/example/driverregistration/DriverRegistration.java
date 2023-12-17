@@ -59,7 +59,7 @@ public class DriverRegistration extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.register_driver);
 
-
+        imageView = findViewById(R.id.imageView);
         licenseImageView = findViewById(R.id.licenseImageView);
         fullNameEditText = findViewById(R.id.fname2);
         emailEditText = findViewById(R.id.email);
