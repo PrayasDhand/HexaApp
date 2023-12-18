@@ -159,9 +159,10 @@ public class DriverRegistration extends AppCompatActivity {
     }
 
     private String extractLicenseNumberFromOCR(String ocrResult) {
+        Log.d("OCR", "Original OCR Result: " + ocrResult);
         // Use a regular expression to find the pattern "DL No. 1234567890"
         // Adjust the regular expression based on variations in your OCR results
-        String licenseNumberPattern = "(?i)DL\\s*No\\.\\s*(\\d+)";
+        String licenseNumberPattern = "(?i)DL\\s*No\\.?\\s*(\\d+)";
         Pattern pattern = Pattern.compile(licenseNumberPattern);
         Matcher matcher = pattern.matcher(ocrResult);
 
