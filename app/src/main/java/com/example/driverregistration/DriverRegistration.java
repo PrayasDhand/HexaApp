@@ -128,6 +128,9 @@ public class DriverRegistration extends AppCompatActivity {
 
         if (ocrResultFromImage != null && !ocrResultFromImage.isEmpty()) {
             try {
+                // Log the OCR result before extraction
+                Log.d("OCR", "Original OCR Result: " + ocrResultFromImage);
+
                 String extractedLicenseNumber = extractLicenseNumberFromOCR(ocrResultFromImage);
 
                 if (extractedLicenseNumber != null && !extractedLicenseNumber.isEmpty() && extractedLicenseNumber.equals(licenseNo)) {
@@ -148,6 +151,9 @@ public class DriverRegistration extends AppCompatActivity {
                 Toast.makeText(this, "Error: Registration failed", Toast.LENGTH_SHORT).show();
             }
         } else {
+            // Log the reason why OCR result extraction failed
+            Log.e("OCR", "Error: Unable to extract OCR result. Result is null or empty.");
+
             Toast.makeText(this, "Error: Unable to extract OCR result", Toast.LENGTH_SHORT).show();
         }
     }
