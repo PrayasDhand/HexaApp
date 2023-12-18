@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -126,19 +127,25 @@ public class DriverRegistration extends AppCompatActivity {
         String ocrResultFromImage = ocrHelper.getOCRResult();
 
         if (ocrResultFromImage != null && !ocrResultFromImage.isEmpty()) {
-            String extractedLicenseNumber = extractLicenseNumberFromOCR(ocrResultFromImage);
+            try {
+                String extractedLicenseNumber = extractLicenseNumberFromOCR(ocrResultFromImage);
 
-            if (extractedLicenseNumber != null && !extractedLicenseNumber.isEmpty() && extractedLicenseNumber.equals(licenseNo)) {
-                // The license numbers match, proceed with registration
-                boolean success = databaseHelper.insertUser(fullName, email, password, dob, contact, licenseNo, vehicleType);
+                if (extractedLicenseNumber != null && !extractedLicenseNumber.isEmpty() && extractedLicenseNumber.equals(licenseNo)) {
+                    // The license numbers match, proceed with registration
+                    boolean success = databaseHelper.insertUser(fullName, email, password, dob, contact, licenseNo, vehicleType);
 
-                if (success) {
-                    Toast.makeText(this, "Driver registered successfully", Toast.LENGTH_SHORT).show();
+                    if (success) {
+                        Toast.makeText(this, "Driver registered successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Failed to register driver", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(this, "Failed to register driver", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Error: License numbers do not match. Please check and try again", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(this, "Error: License numbers do not match. Please check and try again", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e("OCR", "Exception during registration: " + e.getMessage());
+                Toast.makeText(this, "Error: Registration failed", Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(this, "Error: Unable to extract OCR result", Toast.LENGTH_SHORT).show();
@@ -194,30 +201,39 @@ public class DriverRegistration extends AppCompatActivity {
             ocrHelper.performOCR(bitmap);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            Log.e("OCR", "FileNotFoundException: " + e.getMessage());
+            Toast.makeText(this, "Error: File not found", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
+            Log.e("OCR", "IOException: " + e.getMessage());
+            Toast.makeText(this, "Error: Unable to read image file", Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Log.e("OCR", "Exception: " + e.getMessage());
+            Toast.makeText(this, "Error: OCR processing failed", Toast.LENGTH_SHORT).show();
         }
     }
 
 
-    private String[] extractUserInfoFromOCR(String ocrResult) {
-        // Split the OCR result into lines
-        String[] lines = ocrResult.split("\n");
-
-        // Check if there are at least 5 lines (adjust as needed based on your OCR result format)
-        if (lines.length >= 5) {
-            String firstName = lines[0].trim();
-            String lastName = lines[1].trim();
-            String ageStr = lines[2].trim(); // Assuming age is on the third line
-            String email = lines[3].trim();
-            String password = lines[4].trim();
-
-            // Validate or process the extracted data as needed
-
-            return new String[]{firstName, lastName, ageStr, email, password};
-        } else {
-            // Handle the case where the OCR result does not have enough lines
-            return null;
-        }
-    }
+//    private String[] extractUserInfoFromOCR(String ocrResult) {
+//        // Split the OCR result into lines
+//        String[] lines = ocrResult.split("\n");
+//
+//        // Check if there are at least 5 lines (adjust as needed based on your OCR result format)
+//        if (lines.length >= 5) {
+//            String firstName = lines[0].trim();
+//            String lastName = lines[1].trim();
+//            String ageStr = lines[2].trim(); // Assuming age is on the third line
+//            String email = lines[3].trim();
+//            String password = lines[4].trim();
+//
+//            // Validate or process the extracted data as needed
+//
+//            return new String[]{firstName, lastName, ageStr, email, password};
+//        } else {
+//            // Handle the case where the OCR result does not have enough lines
+//            return null;
+//        }
+//    }
 }
